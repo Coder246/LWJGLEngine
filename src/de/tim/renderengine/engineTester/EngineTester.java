@@ -3,6 +3,8 @@ package de.tim.renderengine.engineTester;
 import de.tim.renderengine.Entity.Camera;
 import de.tim.renderengine.Entity.Entity;
 import de.tim.renderengine.Entity.Light;
+import de.tim.renderengine.OBJLoader.ModelData;
+import de.tim.renderengine.OBJLoader.OBJFileLoader;
 import de.tim.renderengine.engine.*;
 import de.tim.renderengine.models.RawModel;
 import de.tim.renderengine.models.TexturedModel;
@@ -22,11 +24,14 @@ public class EngineTester {
         Loader loader = new Loader();
 
 
-        RawModel model = OBJLoader.loadObjModel("tree", loader);
-        RawModel model_fern = OBJLoader.loadObjModel("fern", loader);
-        RawModel model_grass = OBJLoader.loadObjModel("grassModel", loader);
+        ModelData model1 = OBJFileLoader.loadOBJ("tree");
+        ModelData model_fern1 = OBJFileLoader.loadOBJ("fern");
+        ModelData model_grass1 = OBJFileLoader.loadOBJ("grassModel");
 
 
+        RawModel model = loader.loadToVAO(model1.getVertices(),model1.getTextureCoords(),model1.getNormals(),model1.getIndices());
+        RawModel model_fern = loader.loadToVAO(model_fern1.getVertices(),model_fern1.getTextureCoords(),model_fern1.getNormals(),model_fern1.getIndices());
+        RawModel model_grass = loader.loadToVAO(model_grass1.getVertices(),model_grass1.getTextureCoords(),model_grass1.getNormals(),model_grass1.getIndices());
         TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("tree")));
         TexturedModel staticModel_fern = new TexturedModel(model_fern,new ModelTexture(loader.loadTexture("fern")));
         staticModel_fern.getTexture().setHasTransparency(true);
