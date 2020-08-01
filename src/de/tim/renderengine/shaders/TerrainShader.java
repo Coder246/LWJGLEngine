@@ -6,9 +6,9 @@ import de.tim.renderengine.toolbox.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-public class StaticShader extends ShaderProgram {
-    private static final String VERTEX_FILE = "src/de/tim/renderengine/shaders/vertexShader.txt";
-    private static final String FRAGMENT_FILE = "src/de/tim/renderengine/shaders/FragmentShader.txt";
+public class TerrainShader extends ShaderProgram {
+    private static final String VERTEX_FILE = "src/de/tim/renderengine/shaders/terrainVertexShader.txt";
+    private static final String FRAGMENT_FILE = "src/de/tim/renderengine/shaders/terrainFragmentShader.txt";
 
     private int location_transformationMatrix;
     private int location_projectionMatrix;
@@ -17,22 +17,20 @@ public class StaticShader extends ShaderProgram {
     private int location_lightColour;
     private int location_shineDamper;
     private int location_reflectivity;
-    private int location_useFakeLighting;
     private int location_skyColor;
-    public StaticShader() {
+    public TerrainShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
     }
 
     @Override
     protected void getAllUniformLocation() {
-      location_transformationMatrix =  super.getUniformLocation("transformationMatrix");
-      location_projectionMatrix =  super.getUniformLocation("projectionMatrix");
+        location_transformationMatrix =  super.getUniformLocation("transformationMatrix");
+        location_projectionMatrix =  super.getUniformLocation("projectionMatrix");
         location_viewMatrix =  super.getUniformLocation("viewMatrix");
         location_lightPosition =  super.getUniformLocation("lightPosition");
         location_lightColour =  super.getUniformLocation("lightColour");
         location_shineDamper =  super.getUniformLocation("shineDamper");
         location_reflectivity =  super.getUniformLocation("reflectivity");
-        location_useFakeLighting =  super.getUniformLocation("useFakeLighting");
         location_skyColor =  super.getUniformLocation("skyColor");
     }
 
@@ -48,21 +46,15 @@ public class StaticShader extends ShaderProgram {
         super.loadMatrix(location_transformationMatrix,matrix);
 
     }
-  public void loadLight(Light light) {
+    public void loadLight(Light light) {
         super.loadVector(location_lightPosition,light.getPosition());
         super.loadVector(location_lightColour,light.getColor());
 
 
     }
-
     public void loadSkyColor(float r,float g, float b) {
-super.loadVector(location_skyColor,new Vector3f(r,g,b));
+        super.loadVector(location_skyColor,new Vector3f(r,g,b));
     }
-
-    public void loadFakeLightningVariable(boolean useFakeLighting) {
-        super.loadBoolean(location_useFakeLighting,useFakeLighting);
-    }
-
     public void loadShineVariables(float damper,float reflectivity) {
         super.loadFloat(location_shineDamper,damper);
         super.loadFloat(location_reflectivity,reflectivity);
@@ -76,6 +68,5 @@ super.loadVector(location_skyColor,new Vector3f(r,g,b));
 
         super.loadMatrix(location_viewMatrix,viewMatrix);
     }
-
 
 }
