@@ -1,2 +1,3 @@
 # LWJGLEngine
-With Shader loader
+
+A 3d engine WIP
